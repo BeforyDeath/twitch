@@ -11,16 +11,16 @@ const (
 	TwitchAPIHost = "https://api.twitch.tv/kraken/"
 )
 
-type client struct {
+type Client struct {
 	clientID string
 	client   http.Client
 }
 
-func NewClient(clientID string) client {
-	return client{clientID: clientID}
+func NewClient(clientID string) Client {
+	return Client{clientID: clientID}
 }
 
-func (c client) get(method string, result interface{}) error {
+func (c Client) get(method string, result interface{}) error {
 	req, err := http.NewRequest("GET", TwitchAPIHost+method, nil)
 	if err != nil {
 		return err
@@ -57,7 +57,7 @@ func (c client) get(method string, result interface{}) error {
 	return nil
 }
 
-func (c client) GetStream(title string) (streams, error) {
+func (c Client) GetStream(title string) (streams, error) {
 	stream := new(streams)
 
 	err := c.get("streams/"+title, stream)

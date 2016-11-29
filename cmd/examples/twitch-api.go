@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/BeforyDeath/chat-service/twitch/api"
+	"github.com/BeforyDeath/twitch/api"
 )
 
 // Get Client-ID - register your application from the https://www.twitch.tv/settings/connections
