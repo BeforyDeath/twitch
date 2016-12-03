@@ -6,12 +6,12 @@ import (
 )
 
 type message struct {
-	Channel string
-	Origin  string
-	Command string
-	Options []string
-	Params  map[string]string
-	Text    string
+	Room     string
+	Origin   string
+	Command  string
+	Options  []string
+	Params   map[string]string
+	Text     string
 
 	sections []string
 	index    index
@@ -64,7 +64,7 @@ func (m *message) GetCommand() {
 	default:
 		m.Origin = strings.FieldsFunc(f[0], func(c rune) bool { return !(c != '!' && c != ':') })[0]
 		m.Command = f[1]
-		m.Channel = strings.Trim(f[2], "#")
+		m.Room = strings.Trim(f[2], "#")
 		m.Options = f[3:]
 	}
 

@@ -1,9 +1,6 @@
 package irc
 
-import (
-	"errors"
-	"fmt"
-)
+import "fmt"
 
 type rooms struct {
 	ch    *channel
@@ -11,10 +8,9 @@ type rooms struct {
 }
 
 type room struct {
-	title    string
-	Chatters int
-	Viewers  int
-	joined   bool
+	title  string
+	online bool
+	joined bool
 }
 
 func NewRooms(ch *channel) rooms {
@@ -25,27 +21,11 @@ func NewRooms(ch *channel) rooms {
 	return r
 }
 
-func (r rooms) Add(titles ...string) error {
-	var not_exist []string
-
+func (r rooms) Add(titles ...string) {
 	for _, t := range titles {
-		fmt.Printf("Add room %v : ", t)
-		s, err := r.ch.api.GetStream(t)
-		if err != nil {
-			not_exist = append(not_exist, t)
-			fmt.Println("no")
-		} else {
-			fmt.Println("yes")
-		}
-		r.items[t] = &room{
-			title:   t,
-			Viewers: s.Stream.Viewers}
+		fmt.Printf("Add room %v \n", t)
+		r.items[t] = &room{title: t}
 	}
-
-	if len(not_exist) > 0 {
-		return errors.New(fmt.Sprintf("The rooms does not exist: %q", not_exist))
-	}
-	return nil
 }
 
 func (r rooms) Delete(title string) {
@@ -84,4 +64,8 @@ func (r rooms) Get(title string) *room {
 		return room
 	}
 	return &room{}
+}
+
+func (r rooms) GetAll() map[string]*room {
+	return r.items
 }
